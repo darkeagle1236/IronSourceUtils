@@ -1,12 +1,10 @@
 package com.dktlib.ironsourceutils
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.dktlib.ironsourcelib.AdCallback
-import com.dktlib.ironsourcelib.IronSourceActivityLifeCycle
-import com.dktlib.ironsourcelib.IronSourceLifeCycleHelper
 import com.dktlib.ironsourcelib.IronSourceUtil
 
 class MainActivity : AppCompatActivity() {
