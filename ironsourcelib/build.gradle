@@ -33,8 +33,7 @@ android {
 
 dependencies {
 
-    implementation fileTree(include: ['*.aar'], dir: 'libs')
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
     testImplementation 'junit:junit:4.+'
@@ -47,5 +46,7 @@ dependencies {
     implementation 'com.facebook.android:audience-network-sdk:6.8.0'
     implementation 'com.unity3d.ads:unity-ads:3.7.5'
     implementation 'com.google.android.gms:play-services-ads:20.4.0'
-
+    compileOnly files('libs/admobadapter-4.3.23.aar')
+    compileOnly files('libs/unityadsadapter-4.3.14.aar')
+    compileOnly files('libs/facebookadapter-4.3.32.aar')
 }
