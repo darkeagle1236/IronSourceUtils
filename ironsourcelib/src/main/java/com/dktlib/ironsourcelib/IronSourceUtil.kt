@@ -63,9 +63,7 @@ object IronSourceUtil : LifecycleObserver {
                     dialog.dismiss()
                 }
                 callback.onAdFail()
-                if (p0 != null) {
-                    Log.d(TAG, "onInterstitialAdLoadFailed "+p0.errorMessage)
-                }
+                Log.d(TAG, "onInterstitialAdLoadFailed "+p0.errorMessage)
             }
 
             override fun onInterstitialAdOpened() {
