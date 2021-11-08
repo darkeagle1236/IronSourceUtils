@@ -49,4 +49,5 @@ dependencies {
     compileOnly files('libs/admobadapter-4.3.23.aar')
     compileOnly files('libs/unityadsadapter-4.3.14.aar')
     compileOnly files('libs/facebookadapter-4.3.32.aar')
+    implementation 'com.pnikosis:materialish-progress:1.7'
 }
