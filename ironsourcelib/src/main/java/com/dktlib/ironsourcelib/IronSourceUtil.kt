@@ -11,12 +11,14 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.dktlib.ironsourcelib.SweetAlert.SweetAlertDialog
 import com.ironsource.mediationsdk.ISBannerSize
 import com.ironsource.mediationsdk.IronSource
+import com.ironsource.mediationsdk.IronSourceBannerLayout
 import com.ironsource.mediationsdk.integration.IntegrationHelper
 import com.ironsource.mediationsdk.logger.IronSourceError
 import com.ironsource.mediationsdk.sdk.InterstitialListener
 
 
 object IronSourceUtil : LifecycleObserver {
+    var lastTimeInterstitial:Long = 0L
     fun initIronSource(activity: Activity, appKey: String) {
         IronSource.init(activity, appKey)
     }
@@ -77,6 +79,7 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdShowSucceeded() {
                 Log.d(TAG, "onInterstitialAdShowSucceeded")
+                lastTimeInterstitial = System.currentTimeMillis()
             }
 
             override fun onInterstitialAdShowFailed(p0: IronSourceError) {
@@ -97,10 +100,91 @@ object IronSourceUtil : LifecycleObserver {
         }
         IronSource.setInterstitialListener(mInterstitialListener);
     }
+    fun showInterstitialAdsWithCallbackCheckTime(
+        activity: AppCompatActivity,
+        adPlacementId: String,
+        showLoadingDialog: Boolean,
+        timeInMillis:Long,
+        callback: AdCallback
+    ) {
+        if(!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitial)){
+            return
+        }
+        var dialog = SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE)
+        dialog.getProgressHelper().barColor = Color.parseColor("#A5DC86")
+        dialog.setTitleText("Loading ads. Please wait...")
+        dialog.setCancelable(false)
+        val lifecycleObserver = object : LifecycleObserver {
+            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            fun onResume() {
+                IronSource.onResume(activity)
+            }
 
-    fun showBanner(activity: Activity, bannerContainer: ViewGroup, adPlacementId: String) {
+            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            fun onPause() {
+                IronSource.onPause(activity)
+            }
+        }
+        activity.lifecycle.addObserver(lifecycleObserver)
+//        ProcessLifecycleOwner.get().lifecycle.addObserver(lifecycleObserver)
+        val mInterstitialListener = object : InterstitialListener {
+            override fun onInterstitialAdReady() {
+                if (dialog.isShowing) {
+                    dialog.dismiss()
+                }
+                if(activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
+                    Log.d(TAG, "onInterstitialAdReady")
+                    IronSource.showInterstitial(adPlacementId)
+                }
+            }
+
+            override fun onInterstitialAdLoadFailed(p0: IronSourceError) {
+                if (dialog.isShowing) {
+                    dialog.dismiss()
+                }
+                callback.onAdFail()
+                Log.d(TAG, "onInterstitialAdLoadFailed "+p0.errorMessage)
+            }
+
+            override fun onInterstitialAdOpened() {
+                Log.d(TAG, "onInterstitialAdOpened")
+            }
+
+            override fun onInterstitialAdClosed() {
+                callback.onAdClosed()
+                Log.d(TAG, "onInterstitialAdClosed")
+            }
+
+            override fun onInterstitialAdShowSucceeded() {
+                Log.d(TAG, "onInterstitialAdShowSucceeded")
+                lastTimeInterstitial = System.currentTimeMillis()
+            }
+
+            override fun onInterstitialAdShowFailed(p0: IronSourceError) {
+                if (dialog.isShowing) {
+                    dialog.dismiss()
+                }
+                Log.d(TAG, "onInterstitialAdShowFailed " + p0.errorMessage)
+            }
+
+            override fun onInterstitialAdClicked() {
+                Log.d(TAG, "onInterstitialAdClicked")
+            }
+        }
+        Log.d(TAG, "isInterstitialNotReady")
+        IronSource.loadInterstitial()
+        if(showLoadingDialog){
+            dialog.show()
+        }
+        IronSource.setInterstitialListener(mInterstitialListener);
+    }
+    fun showBanner(activity: Activity, bannerContainer: ViewGroup, adPlacementId: String):IronSourceBannerLayout {
         val banner = IronSource.createBanner(activity, ISBannerSize.SMART)
         bannerContainer.addView(banner)
         IronSource.loadBanner(banner, adPlacementId)
+        return banner
+    }
+    fun destroyBanner(banner : IronSourceBannerLayout){
+        IronSource.destroyBanner(banner)
     }
 }
