@@ -108,6 +108,7 @@ object IronSourceUtil : LifecycleObserver {
         callback: AdCallback
     ) {
         if(!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitial)){
+            callback.onAdFail()
             return
         }
         var dialog = SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE)
