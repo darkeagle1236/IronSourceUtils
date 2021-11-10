@@ -184,7 +184,8 @@ object IronSourceUtil : LifecycleObserver {
         IronSource.loadBanner(banner, adPlacementId)
         return banner
     }
-    fun destroyBanner(banner : IronSourceBannerLayout){
+    fun destroyBanner(banner : IronSourceBannerLayout,viewGroup: ViewGroup){
+        viewGroup.removeAllViews()
         IronSource.destroyBanner(banner)
     }
 }
