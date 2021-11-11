@@ -18,6 +18,7 @@ import com.ironsource.mediationsdk.sdk.InterstitialListener
 
 
 object IronSourceUtil : LifecycleObserver {
+    lateinit var banner: IronSourceBannerLayout
     var lastTimeInterstitial:Long = 0L
     fun initIronSource(activity: Activity, appKey: String) {
         IronSource.init(activity, appKey)
@@ -181,14 +182,22 @@ object IronSourceUtil : LifecycleObserver {
         }
         IronSource.setInterstitialListener(mInterstitialListener);
     }
-    fun showBanner(activity: Activity, bannerContainer: ViewGroup, adPlacementId: String):IronSourceBannerLayout {
-        val banner = IronSource.createBanner(activity, ISBannerSize.SMART)
+    fun showBanner(activity: AppCompatActivity, bannerContainer: ViewGroup, adPlacementId: String) {
+        banner = IronSource.createBanner(activity, ISBannerSize.SMART)
         bannerContainer.addView(banner)
         IronSource.loadBanner(banner, adPlacementId)
-        return banner
+//        activity.lifecycle.addObserver(object:LifecycleObserver{
+//            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+//            fun onPause(){
+//                destroyBanner(banner,bannerContainer)
+//                activity.lifecycle.removeObserver(this)
+//            }
+//        })
     }
-    fun destroyBanner(banner : IronSourceBannerLayout,viewGroup: ViewGroup){
+    fun destroyBanner(viewGroup: ViewGroup){
         viewGroup.removeAllViews()
-        IronSource.destroyBanner(banner)
+        if(this::banner.isInitialized){
+            IronSource.destroyBanner(banner)
+        }
     }
 }
