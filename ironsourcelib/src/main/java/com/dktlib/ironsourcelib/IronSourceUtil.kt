@@ -47,7 +47,7 @@ object IronSourceUtil : LifecycleObserver {
                 IronSource.onPause(activity)
             }
         }
-        activity.lifecycle.addObserver(lifecycleObserver)
+//        activity.lifecycle.addObserver(lifecycleObserver)
 //        ProcessLifecycleOwner.get().lifecycle.addObserver(lifecycleObserver)
         val mInterstitialListener = object : InterstitialListener {
             override fun onInterstitialAdReady() {
