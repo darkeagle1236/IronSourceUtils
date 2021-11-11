@@ -133,6 +133,7 @@ object IronSourceUtil : LifecycleObserver {
                 if (dialog.isShowing) {
                     dialog.dismiss()
                 }
+                Log.d(TAG,activity.lifecycle.currentState.toString())
                 if(activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
                     Log.d(TAG, "onInterstitialAdReady")
                     IronSource.showInterstitial(adPlacementId)
