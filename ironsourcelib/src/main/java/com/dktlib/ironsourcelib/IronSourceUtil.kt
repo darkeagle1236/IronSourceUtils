@@ -184,7 +184,8 @@ object IronSourceUtil : LifecycleObserver {
         IronSource.setInterstitialListener(mInterstitialListener);
     }
     fun showBanner(activity: AppCompatActivity, bannerContainer: ViewGroup, adPlacementId: String) {
-        banner = IronSource.createBanner(activity, ISBannerSize.BANNER)
+        destroyBanner()
+        banner = IronSource.createBanner(activity, ISBannerSize.SMART)
         banner.bannerListener = object : BannerListener {
             override fun onBannerAdLoaded() {
                 Log.d(TAG,"onBannerAdLoaded")
@@ -220,8 +221,8 @@ object IronSourceUtil : LifecycleObserver {
 //            }
 //        })
     }
-    fun destroyBanner(viewGroup: ViewGroup){
-        viewGroup.removeAllViews()
+    fun destroyBanner(){
+//        viewGroup.removeAllViews()
         if(this::banner.isInitialized){
             IronSource.destroyBanner(banner)
         }

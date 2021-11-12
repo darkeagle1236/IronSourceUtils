@@ -19,11 +19,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         IronSourceUtil.initIronSource(this, "85460dcd")
         IronSourceUtil.validateIntegration(this)
-        this.lifecycle.addObserver(IronSourceActivityLifeCycle(this))
         val btn = findViewById<Button>(R.id.btn_load_inter)
         bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
         val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
-        IronSourceUtil.showBanner(this,bannerContainer,"main")
         btn.setOnClickListener {
             IronSourceUtil.showInterstitialAdsWithCallback(
                 this,
@@ -48,7 +46,9 @@ class MainActivity : AppCompatActivity() {
 //        }
 //        super.onPause()
 //    }
-//    override fun onResume() {
-//        super.onResume()
-//    }
+    override fun onResume() {
+    val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
+    IronSourceUtil.showBanner(this,bannerContainer,"main")
+        super.onResume()
+    }
 }

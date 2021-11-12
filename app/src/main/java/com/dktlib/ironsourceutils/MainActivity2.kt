@@ -19,10 +19,4 @@ class MainActivity2 : AppCompatActivity() {
         IronSourceUtil.showBanner(this,bannerContainer,"banner_main")
         super.onResume()
     }
-
-    override fun onPause() {
-        val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
-        IronSourceUtil.destroyBanner(bannerContainer)
-        super.onPause()
-    }
 }
