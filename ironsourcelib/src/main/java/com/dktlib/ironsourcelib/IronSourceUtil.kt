@@ -14,6 +14,7 @@ import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.IronSourceBannerLayout
 import com.ironsource.mediationsdk.integration.IntegrationHelper
 import com.ironsource.mediationsdk.logger.IronSourceError
+import com.ironsource.mediationsdk.sdk.BannerListener
 import com.ironsource.mediationsdk.sdk.InterstitialListener
 
 
@@ -21,7 +22,7 @@ object IronSourceUtil : LifecycleObserver {
     lateinit var banner: IronSourceBannerLayout
     var lastTimeInterstitial:Long = 0L
     fun initIronSource(activity: Activity, appKey: String) {
-        IronSource.init(activity, appKey)
+        IronSource.init(activity, appKey,IronSource.AD_UNIT.INTERSTITIAL,IronSource.AD_UNIT.BANNER)
     }
     fun validateIntegration(activity:Activity){
         IntegrationHelper.validateIntegration(activity);
@@ -183,7 +184,32 @@ object IronSourceUtil : LifecycleObserver {
         IronSource.setInterstitialListener(mInterstitialListener);
     }
     fun showBanner(activity: AppCompatActivity, bannerContainer: ViewGroup, adPlacementId: String) {
-        banner = IronSource.createBanner(activity, ISBannerSize.SMART)
+        banner = IronSource.createBanner(activity, ISBannerSize.BANNER)
+        banner.bannerListener = object : BannerListener {
+            override fun onBannerAdLoaded() {
+                Log.d(TAG,"onBannerAdLoaded")
+            }
+
+            override fun onBannerAdLoadFailed(p0: IronSourceError?) {
+                Log.d(TAG,"onBannerAdLoadFailed"+p0.toString())
+            }
+
+            override fun onBannerAdClicked() {
+                Log.d(TAG,"onBannerAdClicked")
+            }
+
+            override fun onBannerAdScreenPresented() {
+                Log.d(TAG,"onBannerAdScreenPresented")
+            }
+
+            override fun onBannerAdScreenDismissed() {
+                Log.d(TAG,"onBannerAdScreenDismissed")
+            }
+
+            override fun onBannerAdLeftApplication() {
+                Log.d(TAG,"onBannerAdLeftApplication")
+            }
+        }
         bannerContainer.addView(banner)
         IronSource.loadBanner(banner, adPlacementId)
 //        activity.lifecycle.addObserver(object:LifecycleObserver{

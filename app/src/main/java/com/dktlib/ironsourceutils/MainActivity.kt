@@ -8,6 +8,8 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dktlib.ironsourcelib.AdCallback
+import com.dktlib.ironsourcelib.IronSourceActivityLifeCycle
+import com.dktlib.ironsourcelib.IronSourceLifeCycleHelper
 import com.dktlib.ironsourcelib.IronSourceUtil
 
 class MainActivity : AppCompatActivity() {
@@ -17,8 +19,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         IronSourceUtil.initIronSource(this, "85460dcd")
         IronSourceUtil.validateIntegration(this)
+        this.lifecycle.addObserver(IronSourceActivityLifeCycle(this))
         val btn = findViewById<Button>(R.id.btn_load_inter)
         bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
+        val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
+        IronSourceUtil.showBanner(this,bannerContainer,"main")
         btn.setOnClickListener {
             IronSourceUtil.showInterstitialAdsWithCallback(
                 this,
@@ -37,15 +42,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onPause() {
-        if(this::bannerContainer.isInitialized){
-            IronSourceUtil.destroyBanner(bannerContainer)
-        }
-        super.onPause()
-    }
-    override fun onResume() {
-        val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
-        IronSourceUtil.showBanner(this,bannerContainer,"main")
-        super.onResume()
-    }
+//    override fun onPause() {
+//        if(this::bannerContainer.isInitialized){
+//            IronSourceUtil.destroyBanner(bannerContainer)
+//        }
+//        super.onPause()
+//    }
+//    override fun onResume() {
+//        super.onResume()
+//    }
 }
