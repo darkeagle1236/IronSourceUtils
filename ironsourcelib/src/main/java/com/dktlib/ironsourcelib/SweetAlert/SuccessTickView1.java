@@ -11,7 +11,7 @@ import android.view.animation.Transformation;
 
 import com.dktlib.ironsourcelib.R;
 
-public class SuccessTickView extends View {
+public class SuccessTickView1 extends View {
     private float mDensity = -1;
     private Paint mPaint;
     private final float CONST_RADIUS = dip2px(1.2f);
@@ -26,12 +26,12 @@ public class SuccessTickView extends View {
     private float mRightRectWidth;
     private boolean mLeftRectGrowMode;
 
-    public SuccessTickView(Context context) {
+    public SuccessTickView1(Context context) {
         super(context);
         init();
     }
 
-    public SuccessTickView(Context context, AttributeSet attrs){
+    public SuccessTickView1(Context context, AttributeSet attrs){
         super(context,attrs);
         init();
     }

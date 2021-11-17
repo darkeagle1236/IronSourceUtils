@@ -57,7 +57,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private FrameLayout mErrorFrame;
     private FrameLayout mSuccessFrame;
     private FrameLayout mProgressFrame;
-    private SuccessTickView mSuccessTick;
+    private SuccessTickView1 mSuccessTick1;
     private ImageView mErrorX;
     private View mSuccessLeftMask;
     private View mSuccessRightMask;
@@ -197,7 +197,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mErrorX = mErrorFrame.findViewById(R.id.error_x);
         mSuccessFrame = findViewById(R.id.success_frame);
         mProgressFrame = findViewById(R.id.progress_dialog);
-        mSuccessTick = mSuccessFrame.findViewById(R.id.success_tick);
+        mSuccessTick1 = mSuccessFrame.findViewById(R.id.success_tick);
         mSuccessLeftMask = mSuccessFrame.findViewById(R.id.mask_left);
         mSuccessRightMask = mSuccessFrame.findViewById(R.id.mask_right);
         mCustomImage = findViewById(R.id.custom_image);
@@ -245,7 +245,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mConfirmButton.setBackgroundResource(R.drawable.green_button_background);
         mErrorFrame.clearAnimation();
         mErrorX.clearAnimation();
-        mSuccessTick.clearAnimation();
+        mSuccessTick1.clearAnimation();
         mSuccessLeftMask.clearAnimation();
         mSuccessRightMask.clearAnimation();
     }
@@ -271,7 +271,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
             mErrorFrame.startAnimation(mErrorInAnim);
             mErrorX.startAnimation(mErrorXInAnim);
         } else if (mAlertType == SUCCESS_TYPE) {
-            mSuccessTick.startTickAnim();
+            mSuccessTick1.startTickAnim();
             mSuccessRightMask.startAnimation(mSuccessBowAnim);
         }
     }
