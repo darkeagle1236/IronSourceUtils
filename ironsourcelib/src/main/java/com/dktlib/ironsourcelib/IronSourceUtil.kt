@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.dktlib.ironsourcelib.SweetAlert.SweetAlertDialog
+import com.dktlib.ironsourcelib.SweetAlert.SweetAlertDialogOne
 import com.ironsource.mediationsdk.ISBannerSize
 import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.IronSourceBannerLayout
@@ -34,7 +34,7 @@ object IronSourceUtil : LifecycleObserver {
         showLoadingDialog: Boolean,
         callback: AdCallback
     ) {
-        var dialog = SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE)
+        var dialog = SweetAlertDialogOne(activity, SweetAlertDialogOne.PROGRESS_TYPE)
         dialog.getProgressHelper().barColor = Color.parseColor("#A5DC86")
         dialog.setTitleText("Loading ads. Please wait...")
         dialog.setCancelable(false)
@@ -114,7 +114,7 @@ object IronSourceUtil : LifecycleObserver {
             callback.onAdFail()
             return
         }
-        var dialog = SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE)
+        var dialog = SweetAlertDialogOne(activity, SweetAlertDialogOne.PROGRESS_TYPE)
         dialog.getProgressHelper().barColor = Color.parseColor("#A5DC86")
         dialog.setTitleText("Loading ads. Please wait...")
         dialog.setCancelable(false)
