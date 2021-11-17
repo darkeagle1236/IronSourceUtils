@@ -28,6 +28,11 @@ Add this to onCreate of your first activity
  ```sh
         IronSourceUtil.initIronSource(this, "app-key")
  ```
+ #### Mediation Adapter
+ 
+ If you're going to use IronSource Mediation with other networks, you have to implement the corresponding network adapter
+ Here's all network adapter you need:
+ https://developers.is.com/ironsource-mobile/android/mediation-networks-android/#step-1
 #### Load and show interstitials
  ```sh
          IronSourceUtil.showInterstitialAdsWithCallback(
