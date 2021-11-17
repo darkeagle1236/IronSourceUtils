@@ -185,6 +185,7 @@ object IronSourceUtil : LifecycleObserver {
     }
     fun showBanner(activity: AppCompatActivity, bannerContainer: ViewGroup, adPlacementId: String) {
         destroyBanner()
+        bannerContainer.removeAllViews()
         banner = IronSource.createBanner(activity, ISBannerSize.SMART)
         banner.bannerListener = object : BannerListener {
             override fun onBannerAdLoaded() {
