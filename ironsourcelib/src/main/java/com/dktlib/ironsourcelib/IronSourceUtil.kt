@@ -143,9 +143,9 @@ object IronSourceUtil : LifecycleObserver {
         })
         IronSource.loadInterstitial()
     }
-    fun showInterstitials(){
+    fun showInterstitials(placementId:String){
         if(IronSource.isInterstitialReady()) {
-            IronSource.showInterstitial()
+            IronSource.showInterstitial(placementId)
         }
     }
     fun showInterstitialAdsWithCallbackCheckTime(
