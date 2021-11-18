@@ -36,6 +36,7 @@ object IronSourceUtil : LifecycleObserver {
         showLoadingDialog: Boolean,
         callback: AdCallback
     ) {
+        IronSource.removeInterstitialListener()
         if(!enableAds){
             callback.onAdFail()
             return
@@ -109,6 +110,44 @@ object IronSourceUtil : LifecycleObserver {
         }
         IronSource.setInterstitialListener(mInterstitialListener);
     }
+    fun loadInterstitials(callback: InterstititialCallback){
+        IronSource.removeInterstitialListener()
+        IronSource.setInterstitialListener(object : InterstitialListener {
+            override fun onInterstitialAdReady() {
+                callback.onInterstitialReady()
+            }
+
+            override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
+                callback.onInterstitialLoadFail()
+            }
+
+            override fun onInterstitialAdOpened() {
+
+            }
+
+            override fun onInterstitialAdClosed() {
+                callback.onInterstitialClosed()
+            }
+
+            override fun onInterstitialAdShowSucceeded() {
+                lastTimeInterstitial = System.currentTimeMillis()
+            }
+
+            override fun onInterstitialAdShowFailed(p0: IronSourceError?) {
+                callback.onInterstitialClosed()
+            }
+
+            override fun onInterstitialAdClicked() {
+
+            }
+        })
+        IronSource.loadInterstitial()
+    }
+    fun showInterstitials(){
+        if(IronSource.isInterstitialReady()) {
+            IronSource.showInterstitial()
+        }
+    }
     fun showInterstitialAdsWithCallbackCheckTime(
         activity: AppCompatActivity,
         adPlacementId: String,
@@ -116,6 +155,7 @@ object IronSourceUtil : LifecycleObserver {
         timeInMillis:Long,
         callback: AdCallback
     ) {
+        IronSource.removeInterstitialListener()
         if(!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitial)||(!enableAds)){
             callback.onAdFail()
             return
