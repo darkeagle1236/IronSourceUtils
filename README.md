@@ -52,7 +52,7 @@ Add this to onCreate of your first activity
 #### Show interstitial
 Only available after intersitital loaded successfully
  ```sh		
-         IronSourceUtil.showInterstitials()
+         IronSourceUtil.showInterstitials(placementId)
  ```
 #### Load and show interstitials
  ```sh
