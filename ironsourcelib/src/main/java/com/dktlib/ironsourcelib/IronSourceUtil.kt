@@ -19,9 +19,11 @@ import com.vapp.admoblibrary.utils.SweetAlert.SweetAlertDialog
 
 
 object IronSourceUtil : LifecycleObserver {
+    var enableAds = true
     lateinit var banner: IronSourceBannerLayout
     var lastTimeInterstitial:Long = 0L
-    fun initIronSource(activity: Activity, appKey: String) {
+    fun initIronSource(activity: Activity, appKey: String,enableAds:Boolean) {
+        this.enableAds = enableAds
         IronSource.init(activity, appKey,IronSource.AD_UNIT.INTERSTITIAL,IronSource.AD_UNIT.BANNER)
     }
     fun validateIntegration(activity:Activity){
@@ -34,6 +36,10 @@ object IronSourceUtil : LifecycleObserver {
         showLoadingDialog: Boolean,
         callback: AdCallback
     ) {
+        if(!enableAds){
+            callback.onAdFail()
+            return
+        }
         var dialog = SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE)
         dialog.getProgressHelper().barColor = Color.parseColor("#A5DC86")
         dialog.setTitleText("Loading ads. Please wait...")
@@ -110,7 +116,7 @@ object IronSourceUtil : LifecycleObserver {
         timeInMillis:Long,
         callback: AdCallback
     ) {
-        if(!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitial)){
+        if(!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitial)||(!enableAds)){
             callback.onAdFail()
             return
         }
@@ -184,6 +190,9 @@ object IronSourceUtil : LifecycleObserver {
         IronSource.setInterstitialListener(mInterstitialListener);
     }
     fun showBanner(activity: AppCompatActivity, bannerContainer: ViewGroup, adPlacementId: String) {
+        if(!enableAds){
+            return
+        }
         destroyBanner()
         bannerContainer.removeAllViews()
         banner = IronSource.createBanner(activity, ISBannerSize.SMART)
