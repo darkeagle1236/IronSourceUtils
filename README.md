@@ -26,7 +26,7 @@ Add this to your app-level build.gradle
 #### Init
 Add this to onCreate of your first activity
  ```sh
-        IronSourceUtil.initIronSource(this, "app-key")
+        IronSourceUtil.initIronSource(this, "app-key",true)
  ```
  #### Mediation Adapter
  
