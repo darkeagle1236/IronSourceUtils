@@ -20,6 +20,7 @@ import com.vapp.admoblibrary.utils.SweetAlert.SweetAlertDialog
 
 object IronSourceUtil : LifecycleObserver {
     var enableAds = true
+    var isInterstitialAdShowing = false
     lateinit var banner: IronSourceBannerLayout
     var lastTimeInterstitial:Long = 0L
     fun initIronSource(activity: Activity, appKey: String,enableAds:Boolean) {
@@ -84,12 +85,14 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdClosed() {
                 callback.onAdClosed()
+                isInterstitialAdShowing = false
                 Log.d(TAG, "onInterstitialAdClosed")
             }
 
             override fun onInterstitialAdShowSucceeded() {
                 Log.d(TAG, "onInterstitialAdShowSucceeded")
                 lastTimeInterstitial = System.currentTimeMillis()
+                isInterstitialAdShowing = true
             }
 
             override fun onInterstitialAdShowFailed(p0: IronSourceError) {
@@ -127,10 +130,12 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdClosed() {
                 callback.onInterstitialClosed()
+                isInterstitialAdShowing = false
             }
 
             override fun onInterstitialAdShowSucceeded() {
                 lastTimeInterstitial = System.currentTimeMillis()
+                isInterstitialAdShowing = true
             }
 
             override fun onInterstitialAdShowFailed(p0: IronSourceError?) {
@@ -203,12 +208,14 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdClosed() {
                 callback.onAdClosed()
+                isInterstitialAdShowing = false
                 Log.d(TAG, "onInterstitialAdClosed")
             }
 
             override fun onInterstitialAdShowSucceeded() {
                 Log.d(TAG, "onInterstitialAdShowSucceeded")
                 lastTimeInterstitial = System.currentTimeMillis()
+                isInterstitialAdShowing = true
             }
 
             override fun onInterstitialAdShowFailed(p0: IronSourceError) {
