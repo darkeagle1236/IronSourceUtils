@@ -15,6 +15,7 @@ import com.ironsource.mediationsdk.integration.IntegrationHelper
 import com.ironsource.mediationsdk.logger.IronSourceError
 import com.ironsource.mediationsdk.sdk.BannerListener
 import com.ironsource.mediationsdk.sdk.InterstitialListener
+import com.vapp.admoblibrary.ads.AdCallback
 import com.vapp.admoblibrary.utils.SweetAlert.SweetAlertDialog
 
 
@@ -114,6 +115,10 @@ object IronSourceUtil : LifecycleObserver {
         IronSource.setInterstitialListener(mInterstitialListener);
     }
     fun loadInterstitials(callback: InterstititialCallback){
+        if(!enableAds){
+            callback.onInterstitialClosed()
+            return
+        }
         IronSource.removeInterstitialListener()
         IronSource.setInterstitialListener(object : InterstitialListener {
             override fun onInterstitialAdReady() {
