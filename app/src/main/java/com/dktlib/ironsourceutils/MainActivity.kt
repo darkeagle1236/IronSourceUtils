@@ -22,17 +22,13 @@ class MainActivity : AppCompatActivity() {
         bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
         val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
         btnLoad.setOnClickListener {
-            IronSourceUtil.loadInterstitials(object : InterstititialCallback {
-                override fun onInterstitialReady() {
-                    btnShow.visibility = View.VISIBLE
-                }
-
-                override fun onInterstitialClosed() {
+            IronSourceUtil.showInterstitialAdsWithCallback(this@MainActivity,"main",true,object : AdCallback {
+                override fun onAdClosed() {
                     startActivity(Intent(this@MainActivity, MainActivity2::class.java))
                 }
 
-                override fun onInterstitialLoadFail() {
-                    Toast.makeText(this@MainActivity,"Load failed",Toast.LENGTH_LONG).show()
+                override fun onAdFail() {
+                    onAdClosed()
                 }
             })
 
