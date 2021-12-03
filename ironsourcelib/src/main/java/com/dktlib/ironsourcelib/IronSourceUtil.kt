@@ -61,10 +61,9 @@ object IronSourceUtil : LifecycleObserver {
 //        ProcessLifecycleOwner.get().lifecycle.addObserver(lifecycleObserver)
         val mInterstitialListener = object : InterstitialListener {
             override fun onInterstitialAdReady() {
-                if (!activity.isFinishing() && dialog.isShowing()) {
+                if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && dialog.isShowing()) {
                     dialog.dismiss()
                 }
-                Log.d(TAG,activity.lifecycle.currentState.toString())
                 if(activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
                     Log.d(TAG, "onInterstitialAdReady")
                     IronSource.showInterstitial(adPlacementId)
@@ -72,7 +71,7 @@ object IronSourceUtil : LifecycleObserver {
             }
 
             override fun onInterstitialAdLoadFailed(p0: IronSourceError) {
-                if (!activity.isFinishing() && dialog.isShowing()) {
+                if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && dialog.isShowing()) {
                     dialog.dismiss()
                 }
                 callback.onAdFail()
@@ -96,7 +95,7 @@ object IronSourceUtil : LifecycleObserver {
             }
 
             override fun onInterstitialAdShowFailed(p0: IronSourceError) {
-                if (!activity.isFinishing() && dialog.isShowing()) {
+                if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && dialog.isShowing()) {
                     dialog.dismiss()
                 }
                 Log.d(TAG, "onInterstitialAdShowFailed " + p0.errorMessage)
@@ -188,7 +187,7 @@ object IronSourceUtil : LifecycleObserver {
 //        ProcessLifecycleOwner.get().lifecycle.addObserver(lifecycleObserver)
         val mInterstitialListener = object : InterstitialListener {
             override fun onInterstitialAdReady() {
-                if (!activity.isFinishing() && dialog.isShowing()) {
+                if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && dialog.isShowing()) {
                     dialog.dismiss()
                 }
                 Log.d(TAG,activity.lifecycle.currentState.toString())
@@ -199,7 +198,7 @@ object IronSourceUtil : LifecycleObserver {
             }
 
             override fun onInterstitialAdLoadFailed(p0: IronSourceError) {
-                if (!activity.isFinishing() && dialog.isShowing()) {
+                if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && dialog.isShowing()) {
                     dialog.dismiss()
                 }
                 callback.onAdFail()
@@ -223,7 +222,7 @@ object IronSourceUtil : LifecycleObserver {
             }
 
             override fun onInterstitialAdShowFailed(p0: IronSourceError) {
-                if (!activity.isFinishing() && dialog.isShowing()) {
+                if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && dialog.isShowing()) {
                     dialog.dismiss()
                 }
                 Log.d(TAG, "onInterstitialAdShowFailed " + p0.errorMessage)
