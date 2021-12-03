@@ -107,7 +107,7 @@ object IronSourceUtil : LifecycleObserver {
         }
             Log.d(TAG, "isInterstitialNotReady")
             IronSource.loadInterstitial()
-        if(showLoadingDialog){
+        if(showLoadingDialog && activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
             dialog.show()
         }
         IronSource.setInterstitialListener(mInterstitialListener);
@@ -234,7 +234,7 @@ object IronSourceUtil : LifecycleObserver {
         }
         Log.d(TAG, "isInterstitialNotReady")
         IronSource.loadInterstitial()
-        if(showLoadingDialog){
+        if(showLoadingDialog && activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
             dialog.show()
         }
         IronSource.setInterstitialListener(mInterstitialListener);
