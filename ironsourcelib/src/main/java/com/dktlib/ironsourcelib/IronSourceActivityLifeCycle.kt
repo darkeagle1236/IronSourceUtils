@@ -1,19 +1,16 @@
 package com.dktlib.ironsourcelib
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.ironsource.mediationsdk.IronSource
+import com.vapp.admoblibrary.utils.SweetAlert.SweetAlertDialog
 
-class IronSourceActivityLifeCycle(val activity:AppCompatActivity) : LifecycleObserver {
+class DialogHelperActivityLifeCycle(val dialog:SweetAlertDialog) : LifecycleObserver {
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume(){
-        IronSource.onResume(activity)
-    }
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onPause(){
-        IronSource.onPause(activity)
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun onDestroy(){
+        if(dialog.isShowing){
+            dialog.dismiss()
+        }
     }
 }
