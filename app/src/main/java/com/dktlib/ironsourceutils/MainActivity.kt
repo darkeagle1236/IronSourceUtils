@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         }
         btnShow.setOnClickListener {
-            IronSourceUtil.showInterstitials("yo")
+            IronSourceUtil.showInterstitialsWithDialog(this,"yo",5000)
         }
         }
         //    override fun onPause() {

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.lifecycleScope
 import com.ironsource.mediationsdk.ISBannerSize
 import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.IronSourceBannerLayout
@@ -17,6 +18,10 @@ import com.ironsource.mediationsdk.logger.IronSourceError
 import com.ironsource.mediationsdk.sdk.BannerListener
 import com.ironsource.mediationsdk.sdk.InterstitialListener
 import com.vapp.admoblibrary.utils.SweetAlert.SweetAlertDialog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
@@ -151,13 +156,37 @@ object IronSourceUtil : LifecycleObserver {
         })
         IronSource.loadInterstitial()
     }
-
+    @Deprecated("Use the new showInterstitialsWithDialog method")
     fun showInterstitials(placementId: String) {
         if (IronSource.isInterstitialReady()) {
             IronSource.showInterstitial(placementId)
         }
     }
 
+    fun showInterstitialsWithDialog(activity: AppCompatActivity,placementId: String,dialogDelayTime:Long) {
+        if (IronSource.isInterstitialReady()) {
+            activity.lifecycleScope.launch {
+                if(dialogDelayTime>0){
+                    var dialog = SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE)
+                    dialog.getProgressHelper().barColor = Color.parseColor("#A5DC86")
+                    dialog.setTitleText("Loading ads. Please wait...")
+                    dialog.setCancelable(false)
+                    activity.lifecycle.addObserver(DialogHelperActivityLifeCycle(dialog))
+                    if (!activity.isFinishing) {
+                        dialog.show()
+                    }
+                    delay(dialogDelayTime)
+                    if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && dialog.isShowing()) {
+                        dialog.dismiss()
+                    }
+                }
+                if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                    Log.d(TAG, "onInterstitialAdReady")
+                    IronSource.showInterstitial(placementId)
+                }
+            }
+        }
+    }
     fun showInterstitialAdsWithCallbackCheckTime(
         activity: AppCompatActivity,
         adPlacementId: String,
