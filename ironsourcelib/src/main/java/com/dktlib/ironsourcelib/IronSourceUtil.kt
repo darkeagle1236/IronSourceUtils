@@ -139,6 +139,7 @@ object IronSourceUtil : LifecycleObserver {
             override fun onInterstitialAdClosed() {
                 callback.onInterstitialClosed()
                 isInterstitialAdShowing = false
+                IronSource.loadInterstitial()
             }
 
             override fun onInterstitialAdShowSucceeded() {
