@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val btnLoad = findViewById<Button>(R.id.btn_load_inter)
         val btnShow = findViewById<Button>(R.id.btn_show_inter)
-        val btncallback2 = findViewById<Button>(R.id.btn_callback2_inter)
         bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
         val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
 
@@ -45,22 +44,6 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onInterstitialClosed() {
                     startActivity(Intent(this@MainActivity, MainActivity2::class.java))
-                }
-
-                override fun onInterstitialLoadFail() {
-                    onInterstitialClosed()
-                }
-            })
-        }
-        btncallback2.setOnClickListener {
-
-            IronSourceUtil.loadInterstitials(object : InterstititialCallback {
-                override fun onInterstitialReady() {
-                    btncallback2.setText("Inter ready")
-                }
-
-                override fun onInterstitialClosed() {
-                    Toast.makeText(this@MainActivity,"YOYO",Toast.LENGTH_LONG).show()
                 }
 
                 override fun onInterstitialLoadFail() {
