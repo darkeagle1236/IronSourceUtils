@@ -159,7 +159,35 @@ object IronSourceUtil : LifecycleObserver {
         if (!enableAds) {
             return
         }
-        IronSource.setInterstitialListener(null)
+        IronSource.setInterstitialListener(object : InterstitialListener {
+            override fun onInterstitialAdReady() {
+
+            }
+
+            override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
+
+            }
+
+            override fun onInterstitialAdOpened() {
+
+            }
+
+            override fun onInterstitialAdClosed() {
+
+            }
+
+            override fun onInterstitialAdShowSucceeded() {
+
+            }
+
+            override fun onInterstitialAdShowFailed(p0: IronSourceError?) {
+
+            }
+
+            override fun onInterstitialAdClicked() {
+
+            }
+        })
         IronSource.loadInterstitial()
     }
     @Deprecated("Use the new showInterstitialsWithDialog method")
@@ -170,7 +198,7 @@ object IronSourceUtil : LifecycleObserver {
     }
 
     fun showInterstitialsWithDialog(activity: AppCompatActivity,placementId: String,dialogDelayTime:Long,callback: InterstititialCallback) {
-            IronSource.setInterstitialListener(null)
+            IronSource.removeInterstitialListener()
             IronSource.setInterstitialListener(object : InterstitialListener {
                 override fun onInterstitialAdReady() {
                     callback.onInterstitialReady()
@@ -178,7 +206,7 @@ object IronSourceUtil : LifecycleObserver {
 
                 override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
                     callback.onInterstitialLoadFail()
-                    IronSource.setInterstitialListener(null)
+                    IronSource.removeInterstitialListener()
                 }
 
                 override fun onInterstitialAdOpened() {
@@ -189,7 +217,7 @@ object IronSourceUtil : LifecycleObserver {
                     callback.onInterstitialClosed()
                     isInterstitialAdShowing = false
                     IronSource.loadInterstitial()
-                    IronSource.setInterstitialListener(null)
+                    IronSource.removeInterstitialListener()
                 }
 
                 override fun onInterstitialAdShowSucceeded() {
@@ -230,8 +258,7 @@ object IronSourceUtil : LifecycleObserver {
         }
         else{
             callback.onInterstitialClosed()
-            IronSource.setInterstitialListener(null)
-
+            IronSource.removeInterstitialListener()
         }
     }
     fun showInterstitialAdsWithCallbackCheckTime(
