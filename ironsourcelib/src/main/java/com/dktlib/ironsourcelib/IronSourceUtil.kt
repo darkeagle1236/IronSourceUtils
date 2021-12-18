@@ -5,6 +5,7 @@ import android.app.Application
 import android.graphics.Color
 import android.util.Log
 import android.view.ViewGroup
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -155,39 +156,41 @@ object IronSourceUtil : LifecycleObserver {
             IronSource.loadInterstitial()
         }
     }
+    @MainThread
     fun loadInterstitials(){
         if (!enableAds) {
             return
         }
-        IronSource.setInterstitialListener(object : InterstitialListener {
-            override fun onInterstitialAdReady() {
-
-            }
-
-            override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
-
-            }
-
-            override fun onInterstitialAdOpened() {
-
-            }
-
-            override fun onInterstitialAdClosed() {
-
-            }
-
-            override fun onInterstitialAdShowSucceeded() {
-
-            }
-
-            override fun onInterstitialAdShowFailed(p0: IronSourceError?) {
-
-            }
-
-            override fun onInterstitialAdClicked() {
-
-            }
-        })
+        IronSource.removeInterstitialListener()
+//        IronSource.setInterstitialListener(object : InterstitialListener {
+//            override fun onInterstitialAdReady() {
+//                Log.d(TAG,"onInterstitialAdReady")
+//            }
+//
+//            override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
+//                Log.d(TAG,"onInterstitialAdLoadFailed")
+//            }
+//
+//            override fun onInterstitialAdOpened() {
+//                Log.d(TAG,"onInterstitialAdOpened")
+//            }
+//
+//            override fun onInterstitialAdClosed() {
+//                Log.d(TAG,"onInterstitialAdClosed")
+//            }
+//
+//            override fun onInterstitialAdShowSucceeded() {
+//                Log.d(TAG,"onInterstitialAdShowSucceeded")
+//            }
+//
+//            override fun onInterstitialAdShowFailed(p0: IronSourceError?) {
+//                Log.d(TAG,"onInterstitialAdShowFailed")
+//            }
+//
+//            override fun onInterstitialAdClicked() {
+//                Log.d(TAG,"onInterstitialAdClicked")
+//            }
+//        })
         IronSource.loadInterstitial()
     }
     @Deprecated("Use the new showInterstitialsWithDialog method")
@@ -196,12 +199,12 @@ object IronSourceUtil : LifecycleObserver {
             IronSource.showInterstitial(placementId)
         }
     }
-
+    @MainThread
     fun showInterstitialsWithDialog(activity: AppCompatActivity,placementId: String,dialogDelayTime:Long,callback: InterstititialCallback) {
-            IronSource.removeInterstitialListener()
             IronSource.setInterstitialListener(object : InterstitialListener {
                 override fun onInterstitialAdReady() {
                     callback.onInterstitialReady()
+                    IronSource.removeInterstitialListener()
                 }
 
                 override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
@@ -216,8 +219,7 @@ object IronSourceUtil : LifecycleObserver {
                 override fun onInterstitialAdClosed() {
                     callback.onInterstitialClosed()
                     isInterstitialAdShowing = false
-                    IronSource.loadInterstitial()
-                    IronSource.removeInterstitialListener()
+
                 }
 
                 override fun onInterstitialAdShowSucceeded() {
