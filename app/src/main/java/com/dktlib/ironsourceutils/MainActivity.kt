@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val btnLoad = findViewById<Button>(R.id.btn_load_inter)
         val btnShow = findViewById<Button>(R.id.btn_show_inter)
+        val btnCallback2 = findViewById<Button>(R.id.btn_show_inter_callback2)
         bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
         val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
 
@@ -50,6 +51,20 @@ class MainActivity : AppCompatActivity() {
                     onInterstitialClosed()
                 }
             })
+        }
+        btnCallback2.setOnClickListener { IronSourceUtil.showInterstitialsWithDialog(this,"yo",1500,object : InterstititialCallback {
+            override fun onInterstitialReady() {
+
+            }
+
+            override fun onInterstitialClosed() {
+                startActivity(Intent(this@MainActivity, MainActivity3::class.java))
+            }
+
+            override fun onInterstitialLoadFail() {
+                onInterstitialClosed()
+            }
+        })
         }
         }
         //    override fun onPause() {
