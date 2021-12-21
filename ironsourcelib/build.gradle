@@ -49,7 +49,7 @@ dependencies {
     compileOnly files('libs/unityadsadapter-4.3.14.aar')
     compileOnly files('libs/facebookadapter-4.3.32.aar')
     implementation 'com.pnikosis:materialish-progress:1.7'
-    implementation 'com.github.dktlib:AdmobUtilsLibrary:5.0.9'
+    implementation 'com.github.dktlib:AdmobUtilsLibrary:6.1.5'
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
     implementation 'com.google.android.play:core:1.10.0'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
