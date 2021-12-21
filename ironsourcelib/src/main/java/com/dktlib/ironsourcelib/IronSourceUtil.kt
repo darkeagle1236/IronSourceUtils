@@ -147,6 +147,7 @@ object IronSourceUtil : LifecycleObserver {
             }
 
             override fun onInterstitialAdShowSucceeded() {
+                callback.onInterstitialShowSucceed()
                 lastTimeInterstitial = System.currentTimeMillis()
                 isInterstitialAdShowing = true
             }
@@ -276,6 +277,7 @@ object IronSourceUtil : LifecycleObserver {
             }
 
             override fun onInterstitialAdShowSucceeded() {
+                callback.onInterstitialShowSucceed()
                 lastTimeInterstitial = System.currentTimeMillis()
                 isInterstitialAdShowing = true
             }
