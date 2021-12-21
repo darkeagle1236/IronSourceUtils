@@ -215,10 +215,12 @@ object IronSourceUtil : LifecycleObserver {
     val emptyListener = object : InterstitialListener {
         override fun onInterstitialAdReady() {
             Log.d(TAG, "onInterstitialAdReady")
+            isLoadInterstitialFailed = false
         }
 
         override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
             Log.d(TAG, "onInterstitialAdLoadFailed")
+            isLoadInterstitialFailed = true
         }
 
         override fun onInterstitialAdOpened() {

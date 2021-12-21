@@ -15,6 +15,9 @@ class MainActivity2 : AppCompatActivity() {
         val btn = findViewById<Button>(R.id.btn_2)
         btn.setOnClickListener {
             IronSourceUtil.showInterstitialsWithDialog(this@MainActivity2,"main",2000,object : InterstititialCallback {
+                override fun onInterstitialShowSucceed() {
+
+                }
                 override fun onInterstitialReady() {
 
                 }

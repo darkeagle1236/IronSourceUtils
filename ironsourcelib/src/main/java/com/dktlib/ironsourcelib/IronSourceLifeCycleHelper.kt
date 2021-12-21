@@ -19,6 +19,9 @@ object IronSourceLifeCycleHelper: Application.ActivityLifecycleCallbacks {
 
     override fun onActivityResumed(p0: Activity) {
 //        IronSource.onResume(p0);
+        if(p0.javaClass.simpleName.equals("ControllerActivity")){
+            return
+        }
         if(IronSourceUtil.isLoadInterstitialFailed){
             IronSource.setInterstitialListener(IronSourceUtil.emptyListener)
             IronSourceUtil.loadInterstitials()

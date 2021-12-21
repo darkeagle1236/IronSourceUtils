@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         }
         btnShow.setOnClickListener {
             IronSourceUtil.showInterstitialsWithDialog(this,"yo",1500,object : InterstititialCallback {
+                override fun onInterstitialShowSucceed() {
+
+                }
                 override fun onInterstitialReady() {
 
                 }
@@ -53,6 +56,9 @@ class MainActivity : AppCompatActivity() {
             })
         }
         btnCallback2.setOnClickListener { IronSourceUtil.showInterstitialsWithDialog(this,"yo",1500,object : InterstititialCallback {
+            override fun onInterstitialShowSucceed() {
+
+            }
             override fun onInterstitialReady() {
 
             }
