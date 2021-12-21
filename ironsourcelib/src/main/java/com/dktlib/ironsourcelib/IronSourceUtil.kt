@@ -28,6 +28,7 @@ object IronSourceUtil : LifecycleObserver {
     var isInterstitialAdShowing = false
     lateinit var banner: IronSourceBannerLayout
     var lastTimeInterstitial: Long = 0L
+    var isLoadInterstitialFailed = false
     fun initIronSource(activity: Activity, appKey: String, enableAds: Boolean) {
         this.enableAds = enableAds
         IronSource.init(
@@ -69,12 +70,14 @@ object IronSourceUtil : LifecycleObserver {
                     Log.d(TAG, "onInterstitialAdReady")
                     IronSource.showInterstitial(adPlacementId)
                 }
+                isLoadInterstitialFailed = false
             }
 
             override fun onInterstitialAdLoadFailed(p0: IronSourceError) {
                 if (!activity.isFinishing() && dialog.isShowing()) {
                     dialog.dismiss()
                 }
+                isLoadInterstitialFailed = true
                 callback.onAdFail()
                 Log.d(TAG, "onInterstitialAdLoadFailed " + p0.errorMessage)
             }
@@ -86,6 +89,7 @@ object IronSourceUtil : LifecycleObserver {
             override fun onInterstitialAdClosed() {
                 callback.onAdClosed()
                 isInterstitialAdShowing = false
+                loadInterstitials()
                 Log.d(TAG, "onInterstitialAdClosed")
             }
 
@@ -124,10 +128,12 @@ object IronSourceUtil : LifecycleObserver {
         IronSource.setInterstitialListener(object : InterstitialListener {
             override fun onInterstitialAdReady() {
                 callback.onInterstitialReady()
+                isLoadInterstitialFailed = false
             }
 
             override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
                 callback.onInterstitialLoadFail()
+                isLoadInterstitialFailed = true
             }
 
             override fun onInterstitialAdOpened() {
@@ -193,7 +199,9 @@ object IronSourceUtil : LifecycleObserver {
 //                Log.d(TAG,"onInterstitialAdClicked")
 //            }
 //        })
-        IronSource.loadInterstitial()
+        if(!IronSource.isInterstitialReady()){
+            IronSource.loadInterstitial()
+        }
     }
 
     @Deprecated("Use the new showInterstitialsWithDialog method")
@@ -243,6 +251,7 @@ object IronSourceUtil : LifecycleObserver {
         IronSource.setInterstitialListener(object : InterstitialListener {
             override fun onInterstitialAdReady() {
                 activity.lifecycleScope.launch(Dispatchers.Main) {
+                    isLoadInterstitialFailed = false
                     callback.onInterstitialReady()
                     IronSource.setInterstitialListener(emptyListener)
                 }
@@ -250,6 +259,7 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
                 activity.lifecycleScope.launch(Dispatchers.Main) {
+                    isLoadInterstitialFailed = true
                     callback.onInterstitialLoadFail()
                     IronSource.setInterstitialListener(emptyListener)
                 }

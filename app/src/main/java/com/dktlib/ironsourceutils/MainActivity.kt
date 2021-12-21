@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
         override fun onResume() {
             val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
             IronSourceUtil.showBanner(this, bannerContainer, "main")
-            IronSourceUtil.loadInterstitials()
             super.onResume()
         }
     }

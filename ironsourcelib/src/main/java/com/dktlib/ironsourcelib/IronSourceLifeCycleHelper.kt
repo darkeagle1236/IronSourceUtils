@@ -10,6 +10,7 @@ object IronSourceLifeCycleHelper: Application.ActivityLifecycleCallbacks {
     private const val TAG = "IrSrcLifecycleCallbacks"
     override fun onActivityCreated(p0: Activity, p1: Bundle?) {
         Log.d(TAG,"onActivityCreated at ${p0.localClassName}")
+
     }
 
     override fun onActivityStarted(p0: Activity) {
@@ -17,11 +18,15 @@ object IronSourceLifeCycleHelper: Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityResumed(p0: Activity) {
-        IronSource.onResume(p0);
+//        IronSource.onResume(p0);
+        if(IronSourceUtil.isLoadInterstitialFailed){
+            IronSource.setInterstitialListener(IronSourceUtil.emptyListener)
+            IronSourceUtil.loadInterstitials()
+        }
     }
 
     override fun onActivityPaused(p0: Activity) {
-        IronSource.onPause(p0);
+//        IronSource.onPause(p0);
     }
 
     override fun onActivityStopped(p0: Activity) {

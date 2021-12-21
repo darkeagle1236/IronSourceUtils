@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dktlib.ironsourcelib.AdCallback
+import com.dktlib.ironsourcelib.IronSourceLifeCycleHelper
 import com.dktlib.ironsourcelib.IronSourceUtil
 
 class SplashActivity : AppCompatActivity() {
@@ -12,7 +13,8 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         IronSourceUtil.initIronSource(this, "85460dcd", true)
         IronSourceUtil.validateIntegration(this)
-        IronSourceUtil.showInterstitialAdsWithCallback(this@SplashActivity,"main",false,object :
+        this.application.registerActivityLifecycleCallbacks(IronSourceLifeCycleHelper)
+        IronSourceUtil.showInterstitialAdsWithCallback(this@SplashActivity,"main",true,object :
             AdCallback {
             override fun onAdClosed() {
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
