@@ -170,8 +170,7 @@ object IronSourceUtil : LifecycleObserver {
         if (!enableAds) {
             return
         }
-        IronSource.removeInterstitialListener()
-//        IronSource.setInterstitialListener(object : InterstitialListener {
+        IronSource.setInterstitialListener(emptyListener)
 //            override fun onInterstitialAdReady() {
 //                Log.d(TAG,"onInterstitialAdReady")
 //            }
@@ -275,7 +274,7 @@ object IronSourceUtil : LifecycleObserver {
             override fun onInterstitialAdClosed() {
                 callback.onInterstitialClosed()
                 isInterstitialAdShowing = false
-
+                loadInterstitials()
             }
 
             override fun onInterstitialAdShowSucceeded() {
