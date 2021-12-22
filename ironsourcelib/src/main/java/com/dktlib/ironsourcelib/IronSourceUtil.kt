@@ -206,9 +206,6 @@ object IronSourceUtil : LifecycleObserver {
 
     @Deprecated("Use the new showInterstitialsWithDialog method")
     fun showInterstitials(placementId: String) {
-        if (!enableAds) {
-            return
-        }
         if (IronSource.isInterstitialReady()) {
             IronSource.showInterstitial(placementId)
         }
@@ -254,6 +251,7 @@ object IronSourceUtil : LifecycleObserver {
         callback: InterstititialCallback
     ) {
         if (!enableAds) {
+            callback.onInterstitialLoadFail()
             return
         }
         IronSource.setInterstitialListener(object : InterstitialListener {
@@ -335,6 +333,7 @@ object IronSourceUtil : LifecycleObserver {
         callback: AdCallback
     ) {
         if (!enableAds) {
+            callback.onAdFail()
             return
         }
         IronSource.removeInterstitialListener()
