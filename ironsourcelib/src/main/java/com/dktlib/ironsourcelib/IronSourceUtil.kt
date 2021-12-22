@@ -206,6 +206,9 @@ object IronSourceUtil : LifecycleObserver {
 
     @Deprecated("Use the new showInterstitialsWithDialog method")
     fun showInterstitials(placementId: String) {
+        if (!enableAds) {
+            return
+        }
         if (IronSource.isInterstitialReady()) {
             IronSource.showInterstitial(placementId)
         }
@@ -250,6 +253,9 @@ object IronSourceUtil : LifecycleObserver {
         dialogDelayTime: Long,
         callback: InterstititialCallback
     ) {
+        if (!enableAds) {
+            return
+        }
         IronSource.setInterstitialListener(object : InterstitialListener {
             override fun onInterstitialAdReady() {
                 activity.lifecycleScope.launch(Dispatchers.Main) {
@@ -328,6 +334,9 @@ object IronSourceUtil : LifecycleObserver {
         timeInMillis: Long,
         callback: AdCallback
     ) {
+        if (!enableAds) {
+            return
+        }
         IronSource.removeInterstitialListener()
         if (!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitial) || (!enableAds)) {
             callback.onAdFail()
