@@ -211,11 +211,11 @@ object IronSourceUtil : LifecycleObserver {
         if (!IronSource.isInterstitialReady()) {
             IronSource.loadInterstitial()
         }
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Main) {
             delay(timeout)
             if(!IronSource.isInterstitialReady()){
-                callback.onInterstitialLoadFail()
                 IronSource.setInterstitialListener(emptyListener)
+                callback.onInterstitialLoadFail()
             }
         }
     }
