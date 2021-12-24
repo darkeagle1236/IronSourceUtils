@@ -1,27 +1,58 @@
 package com.dktlib.ironsourceutils
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.dktlib.ironsourcelib.AdCallback
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.dktlib.ironsourcelib.InterstititialCallback
 import com.dktlib.ironsourcelib.IronSourceLifeCycleHelper
 import com.dktlib.ironsourcelib.IronSourceUtil
+import com.dktlib.ironsourcelib.IronSourceUtil.showInterstitialsWithDialog
+import com.dktlib.ironsourceutils.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        val binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         IronSourceUtil.initIronSource(this, "85460dcd", true)
         IronSourceUtil.validateIntegration(this)
         this.application.registerActivityLifecycleCallbacks(IronSourceLifeCycleHelper)
-        IronSourceUtil.showInterstitialAdsWithCallback(this@SplashActivity,"main",true,object :
-            AdCallback {
-            override fun onAdClosed() {
+        binding.btnNext.setOnClickListener {
+            showInterstitialsWithDialog(this,"splash",0,object : InterstititialCallback {
+                override fun onInterstitialReady() {
+
+                }
+
+                override fun onInterstitialClosed() {
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                }
+
+                override fun onInterstitialLoadFail() {
+                    onInterstitialClosed()
+                }
+
+                override fun onInterstitialShowSucceed() {
+
+                }
+            })
+        }
+        IronSourceUtil.loadInterstitials(1000,object : InterstititialCallback {
+            override fun onInterstitialReady() {
+                binding.btnNext.visibility = View.VISIBLE
+            }
+
+            override fun onInterstitialClosed() {
+
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             }
 
-            override fun onAdFail() {
-                onAdClosed()
+            override fun onInterstitialLoadFail() {
+                onInterstitialClosed()
+            }
+
+            override fun onInterstitialShowSucceed() {
+
             }
         })
     }

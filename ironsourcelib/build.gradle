@@ -54,4 +54,7 @@ dependencies {
     implementation 'com.google.android.play:core:1.10.0'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha01'
+    //Shimmer layout
+
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 }
