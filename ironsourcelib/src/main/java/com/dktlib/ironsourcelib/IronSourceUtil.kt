@@ -167,7 +167,7 @@ object IronSourceUtil : LifecycleObserver {
             IronSource.loadInterstitial()
         }
     }
-    fun loadInterstitials(timeout:Long,callback: InterstititialCallback) {
+    fun loadInterstitials(activity:AppCompatActivity,timeout:Long,callback: InterstititialCallback) {
         if (!enableAds) {
             callback.onInterstitialClosed()
             return
@@ -211,7 +211,7 @@ object IronSourceUtil : LifecycleObserver {
         if (!IronSource.isInterstitialReady()) {
             IronSource.loadInterstitial()
         }
-        GlobalScope.launch(Dispatchers.Main) {
+        activity.lifecycleScope.launch(Dispatchers.Main) {
             delay(timeout)
             if(!IronSource.isInterstitialReady()){
                 IronSource.setInterstitialListener(emptyListener)
