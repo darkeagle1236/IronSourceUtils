@@ -37,7 +37,7 @@ class SplashActivity : AppCompatActivity() {
                 }
             })
         }
-        IronSourceUtil.loadInterstitials(1000,object : InterstititialCallback {
+        IronSourceUtil.loadInterstitials(this,3000,object : InterstititialCallback {
             override fun onInterstitialReady() {
                 binding.btnNext.visibility = View.VISIBLE
             }
@@ -45,6 +45,7 @@ class SplashActivity : AppCompatActivity() {
             override fun onInterstitialClosed() {
 
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
 
             override fun onInterstitialLoadFail() {

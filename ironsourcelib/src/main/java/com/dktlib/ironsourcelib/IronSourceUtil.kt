@@ -182,6 +182,7 @@ object IronSourceUtil : LifecycleObserver {
             override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
                 callback.onInterstitialLoadFail()
                 isLoadInterstitialFailed = true
+                isInterstitialAdShowing = false
             }
 
             override fun onInterstitialAdOpened() {
@@ -274,6 +275,7 @@ object IronSourceUtil : LifecycleObserver {
         override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
             Log.d(TAG, "onInterstitialAdLoadFailed")
             isLoadInterstitialFailed = true
+            isInterstitialAdShowing = false
         }
 
         override fun onInterstitialAdOpened() {
@@ -282,10 +284,12 @@ object IronSourceUtil : LifecycleObserver {
 
         override fun onInterstitialAdClosed() {
             Log.d(TAG, "onInterstitialAdClosed")
+            isInterstitialAdShowing = false
         }
 
         override fun onInterstitialAdShowSucceeded() {
             Log.d(TAG, "onInterstitialAdShowSucceeded")
+            isInterstitialAdShowing = true
         }
 
         override fun onInterstitialAdShowFailed(p0: IronSourceError?) {
