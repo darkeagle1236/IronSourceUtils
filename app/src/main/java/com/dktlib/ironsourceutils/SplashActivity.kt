@@ -19,33 +19,18 @@ class SplashActivity : AppCompatActivity() {
         IronSourceUtil.validateIntegration(this)
         this.application.registerActivityLifecycleCallbacks(IronSourceLifeCycleHelper)
         binding.btnNext.setOnClickListener {
-            showInterstitialsWithDialog(this,"splash",0,object : InterstititialCallback {
-                override fun onInterstitialReady() {
-
-                }
-
-                override fun onInterstitialClosed() {
-                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                }
-
-                override fun onInterstitialLoadFail() {
-                    onInterstitialClosed()
-                }
-
-                override fun onInterstitialShowSucceed() {
-
-                }
-            })
+            IronSourceUtil.showInterstitials("splash")
         }
-        IronSourceUtil.loadInterstitials(this,3000,object : InterstititialCallback {
+        IronSourceUtil.loadInterstitials(this,7000,object : InterstititialCallback {
             override fun onInterstitialReady() {
                 binding.btnNext.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.INVISIBLE
             }
 
             override fun onInterstitialClosed() {
-
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                val i = Intent(this@SplashActivity, MainActivity::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(i)
             }
 
             override fun onInterstitialLoadFail() {
