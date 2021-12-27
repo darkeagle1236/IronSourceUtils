@@ -211,7 +211,7 @@ object IronSourceUtil : LifecycleObserver {
         })
         if (!IronSource.isInterstitialReady()) {
             IronSource.loadInterstitial()
-            GlobalScope.launch(Dispatchers.Main) {
+            activity.lifecycleScope.launch(Dispatchers.Main) {
                 delay(timeout)
                 if((!IronSource.isInterstitialReady())&&(!isInterstitialAdShowing)){
                     IronSource.setInterstitialListener(emptyListener)
