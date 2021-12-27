@@ -45,7 +45,9 @@ object IronSourceUtil : LifecycleObserver {
     fun validateIntegration(activity: Activity) {
         IntegrationHelper.validateIntegration(activity);
     }
-
+    fun isInterstitialReady():Boolean{
+        return IronSource.isInterstitialReady()
+    }
     val TAG: String = "IronSourceUtil"
     fun showInterstitialAdsWithCallback(
         activity: AppCompatActivity,
