@@ -29,6 +29,11 @@ Add this to onCreate of your first activity
  ```sh
         IronSourceUtil.initIronSource(this, "app-key",true)
  ```
+Register lifecyclecallback to auto-reload after failed to load interstitial
+
+ ```sh
+        IronSourceUtil.initIronSource(this, "app-key",true)
+ ```
  #### Mediation Adapter
  
  If you're going to use IronSource Mediation with other networks, you have to implement the corresponding network adapter
@@ -50,10 +55,25 @@ Add this to onCreate of your first activity
                 }
             })
  ```
+#### Load interstitial
+Load intersitital to show later
+ ```sh		
+         IronSourceUtil.loadInterstitials(placementId)
+ ```
+#### Load interstitial with timeout
+Load intersitital, but will call callback.onInterstitialLoadFail() when timeout is reached
+ ```sh		
+         IronSourceUtil.loadInterstitials(activity,timeoutInMillis,interstitialCallback)
+ ```
 #### Show interstitial
 Only available after intersitital loaded successfully
  ```sh		
          IronSourceUtil.showInterstitials(placementId)
+ ```
+#### Show interstitial with dialog
+If ready, showing interstitial with a fake loading dialog
+ ```sh		
+         IronSourceUtil.showInterstitialsWithDialog(activity,placementId,dialogShowTime,interstitialCallback)
  ```
 #### Load and show interstitials
  ```sh
