@@ -32,7 +32,7 @@ Add this to onCreate of your first activity
 Register lifecyclecallback to auto-reload after failed to load interstitial
 
  ```sh
-        IronSourceUtil.initIronSource(this, "app-key",true)
+            this.getApplication().registerActivityLifecycleCallbacks(IronSourceLifeCycleHelper.INSTANCE);
  ```
  #### Mediation Adapter
  
