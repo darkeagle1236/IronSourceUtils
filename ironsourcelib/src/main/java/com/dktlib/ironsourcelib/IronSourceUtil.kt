@@ -169,7 +169,7 @@ object IronSourceUtil : LifecycleObserver {
             IronSource.loadInterstitial()
         }
     }
-    //Only use for interstitial
+    //Only use for splash interstitial
     fun loadInterstitials(activity:AppCompatActivity,timeout:Long,callback: InterstititialCallback) {
         if (!enableAds) {
             callback.onInterstitialClosed()
@@ -194,6 +194,7 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdClosed() {
                 callback.onInterstitialClosed()
+                IronSource.setInterstitialListener(emptyListener)
                 isInterstitialAdShowing = false
                 IronSource.loadInterstitial()
             }
