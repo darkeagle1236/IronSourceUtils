@@ -1,8 +1,6 @@
 package com.dktlib.ironsourcelib
 
 import android.app.Activity
-import android.app.Application
-import android.content.Context
 import android.graphics.Color
 import android.util.Log
 import android.view.View
@@ -11,7 +9,6 @@ import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.lifecycleScope
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.ironsource.mediationsdk.ISBannerSize
@@ -23,14 +20,14 @@ import com.ironsource.mediationsdk.sdk.BannerListener
 import com.ironsource.mediationsdk.sdk.InterstitialListener
 import com.vapp.admoblibrary.utils.SweetAlert.SweetAlertDialog
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 
 object IronSourceUtil : LifecycleObserver {
     var enableAds = true
     var isInterstitialAdShowing = false
     lateinit var banner: IronSourceBannerLayout
-    var lastTimeInterstitial: Long = 0L
+    var lastTimeInterstitialShowed: Long = 0L
+    var lastTimeCallInterstitial:Long = 0L
     var isLoadInterstitialFailed = false
     fun initIronSource(activity: Activity, appKey: String, enableAds: Boolean) {
         this.enableAds = enableAds
@@ -100,7 +97,7 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdShowSucceeded() {
                 Log.d(TAG, "onInterstitialAdShowSucceeded")
-                lastTimeInterstitial = System.currentTimeMillis()
+                lastTimeInterstitialShowed = System.currentTimeMillis()
                 isInterstitialAdShowing = true
             }
 
@@ -153,7 +150,7 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdShowSucceeded() {
                 callback.onInterstitialShowSucceed()
-                lastTimeInterstitial = System.currentTimeMillis()
+                lastTimeInterstitialShowed = System.currentTimeMillis()
                 isInterstitialAdShowing = true
             }
 
@@ -201,7 +198,7 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdShowSucceeded() {
                 callback.onInterstitialShowSucceed()
-                lastTimeInterstitial = System.currentTimeMillis()
+                lastTimeInterstitialShowed = System.currentTimeMillis()
                 isInterstitialAdShowing = true
             }
 
@@ -267,6 +264,11 @@ object IronSourceUtil : LifecycleObserver {
 
     @Deprecated("Use the new showInterstitialsWithDialog method")
     fun showInterstitials(placementId: String) {
+        //Throttle calling interstitial
+        if(System.currentTimeMillis() - 3000 < lastTimeCallInterstitial){
+            return
+        }
+        lastTimeCallInterstitial = System.currentTimeMillis()
         if (IronSource.isInterstitialReady()) {
             IronSource.showInterstitial(placementId)
         }
@@ -314,13 +316,13 @@ object IronSourceUtil : LifecycleObserver {
         dialogShowTime: Long,
         callback: InterstititialCallback
     ) {
-        if(isInterstitialAdShowing){
+        //Throttle calling interstitial
+        if(System.currentTimeMillis() - 3000 < lastTimeCallInterstitial){
             return
         }
-        isInterstitialAdShowing = true
+        lastTimeCallInterstitial = System.currentTimeMillis()
         if (!enableAds) {
             callback.onInterstitialLoadFail()
-            isInterstitialAdShowing = false
             return
         }
         IronSource.setInterstitialListener(object : InterstitialListener {
@@ -352,7 +354,7 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdShowSucceeded() {
                 callback.onInterstitialShowSucceed()
-                lastTimeInterstitial = System.currentTimeMillis()
+                lastTimeInterstitialShowed = System.currentTimeMillis()
                 isInterstitialAdShowing = true
             }
 
@@ -402,18 +404,17 @@ object IronSourceUtil : LifecycleObserver {
         timeInMillis: Long,
         callback: InterstititialCallback
     ) {
-        if(isInterstitialAdShowing){
+        //Throttle calling interstitial
+        if(System.currentTimeMillis() - 3000 < lastTimeCallInterstitial){
             return
         }
-        isInterstitialAdShowing = true
+        lastTimeCallInterstitial = System.currentTimeMillis()
         if (!enableAds) {
             callback.onInterstitialLoadFail()
-            isInterstitialAdShowing = false
             return
         }
-        if (!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitial) || (!enableAds)) {
+        if (!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitialShowed) || (!enableAds)) {
             callback.onInterstitialLoadFail()
-            isInterstitialAdShowing = false
             return
         }
         IronSource.setInterstitialListener(object : InterstitialListener {
@@ -445,7 +446,7 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdShowSucceeded() {
                 callback.onInterstitialShowSucceed()
-                lastTimeInterstitial = System.currentTimeMillis()
+                lastTimeInterstitialShowed = System.currentTimeMillis()
                 isInterstitialAdShowing = true
             }
 
@@ -499,7 +500,7 @@ object IronSourceUtil : LifecycleObserver {
             return
         }
         IronSource.removeInterstitialListener()
-        if (!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitial) || (!enableAds)) {
+        if (!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitialShowed) || (!enableAds)) {
             callback.onAdFail()
             return
         }
@@ -540,7 +541,7 @@ object IronSourceUtil : LifecycleObserver {
 
             override fun onInterstitialAdShowSucceeded() {
                 Log.d(TAG, "onInterstitialAdShowSucceeded")
-                lastTimeInterstitial = System.currentTimeMillis()
+                lastTimeInterstitialShowed = System.currentTimeMillis()
                 isInterstitialAdShowing = true
             }
 
