@@ -265,7 +265,7 @@ object IronSourceUtil : LifecycleObserver {
     @Deprecated("Use the new showInterstitialsWithDialog method")
     fun showInterstitials(placementId: String) {
         //Throttle calling interstitial
-        if(System.currentTimeMillis() - 3000 < lastTimeCallInterstitial){
+        if(System.currentTimeMillis() - 1000 < lastTimeCallInterstitial){
             return
         }
         lastTimeCallInterstitial = System.currentTimeMillis()
@@ -317,7 +317,7 @@ object IronSourceUtil : LifecycleObserver {
         callback: InterstititialCallback
     ) {
         //Throttle calling interstitial
-        if(System.currentTimeMillis() - 3000 < lastTimeCallInterstitial){
+        if(System.currentTimeMillis() - 1000 < lastTimeCallInterstitial){
             return
         }
         lastTimeCallInterstitial = System.currentTimeMillis()
@@ -405,7 +405,7 @@ object IronSourceUtil : LifecycleObserver {
         callback: InterstititialCallback
     ) {
         //Throttle calling interstitial
-        if(System.currentTimeMillis() - 3000 < lastTimeCallInterstitial){
+        if(System.currentTimeMillis() - 1000 < lastTimeCallInterstitial){
             return
         }
         lastTimeCallInterstitial = System.currentTimeMillis()
