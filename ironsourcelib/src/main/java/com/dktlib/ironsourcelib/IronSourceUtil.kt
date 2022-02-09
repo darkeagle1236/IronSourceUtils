@@ -320,7 +320,7 @@ object IronSourceUtil : LifecycleObserver {
         isInterstitialAdShowing = true
         if (!enableAds) {
             callback.onInterstitialLoadFail()
-            isLoadInterstitialFailed = false
+            isInterstitialAdShowing = false
             return
         }
         IronSource.setInterstitialListener(object : InterstitialListener {
@@ -390,7 +390,7 @@ object IronSourceUtil : LifecycleObserver {
             activity.lifecycleScope.launch(Dispatchers.Main) {
                 IronSource.setInterstitialListener(emptyListener)
                 callback.onInterstitialClosed()
-                isLoadInterstitialFailed = false
+                isInterstitialAdShowing = false
             }
         }
     }
@@ -408,12 +408,12 @@ object IronSourceUtil : LifecycleObserver {
         isInterstitialAdShowing = true
         if (!enableAds) {
             callback.onInterstitialLoadFail()
-            isLoadInterstitialFailed = false
+            isInterstitialAdShowing = false
             return
         }
         if (!(System.currentTimeMillis() - timeInMillis > lastTimeInterstitial) || (!enableAds)) {
             callback.onInterstitialLoadFail()
-            isLoadInterstitialFailed = false
+            isInterstitialAdShowing = false
             return
         }
         IronSource.setInterstitialListener(object : InterstitialListener {
@@ -483,7 +483,7 @@ object IronSourceUtil : LifecycleObserver {
             activity.lifecycleScope.launch(Dispatchers.Main) {
                 IronSource.setInterstitialListener(emptyListener)
                 callback.onInterstitialClosed()
-                isLoadInterstitialFailed = false
+                isInterstitialAdShowing = false
             }
         }
     }
