@@ -399,6 +399,7 @@ object IronSourceUtil : LifecycleObserver {
         if(isInterstitialAdShowing){
             return
         }
+        isInterstitialAdShowing = true
         if (!enableAds) {
             callback.onInterstitialLoadFail()
             return
