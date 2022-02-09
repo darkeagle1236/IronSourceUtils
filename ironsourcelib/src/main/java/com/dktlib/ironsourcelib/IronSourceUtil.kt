@@ -16,8 +16,10 @@ import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.IronSourceBannerLayout
 import com.ironsource.mediationsdk.integration.IntegrationHelper
 import com.ironsource.mediationsdk.logger.IronSourceError
+import com.ironsource.mediationsdk.model.Placement
 import com.ironsource.mediationsdk.sdk.BannerListener
 import com.ironsource.mediationsdk.sdk.InterstitialListener
+import com.ironsource.mediationsdk.sdk.RewardedVideoListener
 import com.vapp.admoblibrary.utils.SweetAlert.SweetAlertDialog
 import kotlinx.coroutines.*
 
@@ -34,9 +36,11 @@ object IronSourceUtil : LifecycleObserver {
         IronSource.init(
             activity,
             appKey,
+            IronSource.AD_UNIT.REWARDED_VIDEO,
             IronSource.AD_UNIT.INTERSTITIAL,
             IronSource.AD_UNIT.BANNER
         )
+        IronSource.shouldTrackNetworkState(activity,true)
     }
 
     fun validateIntegration(activity: Activity) {
@@ -619,5 +623,47 @@ object IronSourceUtil : LifecycleObserver {
         if (this::banner.isInitialized) {
             IronSource.destroyBanner(banner)
         }
+    }
+
+
+
+    //
+    fun loadAndShowRewardsAds(callback: RewardVideoCallback){
+        IronSource.setRewardedVideoListener(object : RewardedVideoListener {
+            override fun onRewardedVideoAdOpened() {
+
+            }
+
+            override fun onRewardedVideoAdClosed() {
+                callback.onRewardClosed()
+            }
+
+            override fun onRewardedVideoAvailabilityChanged(p0: Boolean) {
+
+            }
+
+            override fun onRewardedVideoAdStarted() {
+
+            }
+
+            override fun onRewardedVideoAdEnded() {
+
+            }
+
+            override fun onRewardedVideoAdRewarded(p0: Placement?) {
+                callback.onRewardEarned()
+            }
+
+            override fun onRewardedVideoAdShowFailed(p0: IronSourceError?) {
+                callback.onRewardFailed()
+            }
+
+            override fun onRewardedVideoAdClicked(p0: Placement?) {
+
+            }
+        })
+        if (IronSource.isRewardedVideoAvailable()) //show rewarded video
+            IronSource.showRewardedVideo()
+        callback.onRewardNotAvailable()
     }
 }

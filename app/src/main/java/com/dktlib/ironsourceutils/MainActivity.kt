@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val btnLoad = findViewById<Button>(R.id.btn_load_inter)
         val btnShow = findViewById<Button>(R.id.btn_show_inter)
         val btnCallback2 = findViewById<Button>(R.id.btn_show_inter_callback2)
+        val btnReward = findViewById<Button>(R.id.btn_show_reward)
         bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
         val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
 
@@ -38,51 +39,81 @@ class MainActivity : AppCompatActivity() {
 
         }
         btnShow.setOnClickListener {
-            IronSourceUtil.showInterstitialsWithDialog(this,"yo",1500,object : InterstititialCallback {
-                override fun onInterstitialShowSucceed() {
+            IronSourceUtil.showInterstitialsWithDialog(
+                this,
+                "yo",
+                1500,
+                object : InterstititialCallback {
+                    override fun onInterstitialShowSucceed() {
+
+                    }
+
+                    override fun onInterstitialReady() {
+
+                    }
+
+                    override fun onInterstitialClosed() {
+                        startActivity(Intent(this@MainActivity, MainActivity2::class.java))
+                    }
+
+                    override fun onInterstitialLoadFail() {
+                        onInterstitialClosed()
+                    }
+                })
+        }
+        btnCallback2.setOnClickListener {
+            IronSourceUtil.showInterstitialsWithDialog(
+                this,
+                "yo",
+                1500,
+                object : InterstititialCallback {
+                    override fun onInterstitialShowSucceed() {
+
+                    }
+
+                    override fun onInterstitialReady() {
+
+                    }
+
+                    override fun onInterstitialClosed() {
+                        startActivity(Intent(this@MainActivity, MainActivity3::class.java))
+                    }
+
+                    override fun onInterstitialLoadFail() {
+                        onInterstitialClosed()
+                    }
+                })
+        }
+        btnReward.setOnClickListener {
+            IronSourceUtil.loadAndShowRewardsAds(object : RewardVideoCallback {
+                override fun onRewardClosed() {
 
                 }
-                override fun onInterstitialReady() {
+
+                override fun onRewardEarned() {
 
                 }
 
-                override fun onInterstitialClosed() {
-                    startActivity(Intent(this@MainActivity, MainActivity2::class.java))
+                override fun onRewardFailed() {
+
                 }
 
-                override fun onInterstitialLoadFail() {
-                    onInterstitialClosed()
+                override fun onRewardNotAvailable() {
+
                 }
             })
         }
-        btnCallback2.setOnClickListener { IronSourceUtil.showInterstitialsWithDialog(this,"yo",1500,object : InterstititialCallback {
-            override fun onInterstitialShowSucceed() {
+    }
 
-            }
-            override fun onInterstitialReady() {
-
-            }
-
-            override fun onInterstitialClosed() {
-                startActivity(Intent(this@MainActivity, MainActivity3::class.java))
-            }
-
-            override fun onInterstitialLoadFail() {
-                onInterstitialClosed()
-            }
-        })
-        }
-        }
-        //    override fun onPause() {
+    //    override fun onPause() {
 //        if(this::bannerContainer.isInitialized){
 //            IronSourceUtil.destroyBanner(bannerContainer)
 //        }
 //        super.onPause()
 //    }
-
-        override fun onResume() {
-            val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
-            IronSourceUtil.showBanner(this, bannerContainer, "main")
-            super.onResume()
-        }
+    override fun onResume() {
+        val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
+        IronSourceUtil.showBanner(this, bannerContainer, "main")
+        super.onResume()
     }
+}
