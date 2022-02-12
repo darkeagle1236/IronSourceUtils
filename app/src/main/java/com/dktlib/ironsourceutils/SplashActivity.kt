@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dktlib.ironsourcelib.InterstititialCallback
 import com.dktlib.ironsourcelib.IronSourceLifeCycleHelper
 import com.dktlib.ironsourcelib.IronSourceUtil
-import com.dktlib.ironsourcelib.IronSourceUtil.showInterstitialsWithDialog
 import com.dktlib.ironsourceutils.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {

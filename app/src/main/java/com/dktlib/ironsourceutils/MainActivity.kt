@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 })
         }
         btnReward.setOnClickListener {
-            IronSourceUtil.loadAndShowRewardsAds(object : RewardVideoCallback {
+            IronSourceUtil.loadAndShowRewardsAds("rewards",object : RewardVideoCallback {
                 override fun onRewardClosed() {
 
                 }

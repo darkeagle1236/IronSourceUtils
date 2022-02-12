@@ -628,7 +628,7 @@ object IronSourceUtil : LifecycleObserver {
 
 
     //
-    fun loadAndShowRewardsAds(callback: RewardVideoCallback){
+    fun loadAndShowRewardsAds(placementId: String,callback: RewardVideoCallback){
         IronSource.setRewardedVideoListener(object : RewardedVideoListener {
             override fun onRewardedVideoAdOpened() {
 
@@ -662,8 +662,11 @@ object IronSourceUtil : LifecycleObserver {
 
             }
         })
-        if (IronSource.isRewardedVideoAvailable()) //show rewarded video
-            IronSource.showRewardedVideo()
-        callback.onRewardNotAvailable()
+        if (IronSource.isRewardedVideoAvailable()){
+            IronSource.showRewardedVideo(placementId)
+        }
+        else{
+            callback.onRewardNotAvailable()
+        }
     }
 }
