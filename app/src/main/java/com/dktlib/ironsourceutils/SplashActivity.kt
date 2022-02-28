@@ -14,7 +14,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        IronSourceUtil.initIronSource(this, "85460dcd", true)
+        IronSourceUtil.initIronSource(this, "85460dcd", false)
         IronSourceUtil.validateIntegration(this)
         this.application.registerActivityLifecycleCallbacks(IronSourceLifeCycleHelper)
         binding.btnNext.setOnClickListener {

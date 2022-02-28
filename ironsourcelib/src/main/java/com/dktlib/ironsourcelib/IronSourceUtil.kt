@@ -569,7 +569,8 @@ object IronSourceUtil : LifecycleObserver {
     }
 
     fun showBanner(activity: AppCompatActivity, bannerContainer: ViewGroup, adPlacementId: String) {
-        if (!enableAds) {
+        if (!this.enableAds) {
+            bannerContainer.visibility = View.GONE
             return
         }
         destroyBanner()

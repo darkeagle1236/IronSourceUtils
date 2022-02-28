@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
         val bannerContainer = findViewById<FrameLayout>(R.id.banner_container)
 
-        IronSourceUtil.initIronSource(this, "85460dcd", true)
+        IronSourceUtil.initIronSource(this, "85460dcd", false)
         IronSourceUtil.validateIntegration(this)
         btnLoad.setOnClickListener {
 //            IronSourceUtil.showInterstitialAdsWithCallback(this@MainActivity,"main",true,object : AdCallback {
