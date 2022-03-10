@@ -55,43 +55,29 @@ Register lifecyclecallback to auto-reload after failed to load interstitial
                 }
             })
  ```
+ 
+#### Load interstitial with timeout (use for SplashActivity)
+Load intersitital, but will call callback.onInterstitialLoadFail() when timeout is reached
+ ```sh		
+         IronSourceUtil.loadInterstitials(activity,timeoutInMillis,interstitialCallback)
+ ```
+ 
+#### Show interstitial with dialog
+If ready, showing interstitial with a fake loading dialog
+ ```sh
+         IronSourceUtil.showInterstitialsWithDialog(activity,placementId,dialogShowTime,interstitialCallback)
+ ```
 #### Load interstitial
 Load intersitital to show later
  ```sh		
          IronSourceUtil.loadInterstitials(placementId)
- ```
-#### Load interstitial with timeout
-Load intersitital, but will call callback.onInterstitialLoadFail() when timeout is reached
- ```sh		
-         IronSourceUtil.loadInterstitials(activity,timeoutInMillis,interstitialCallback)
  ```
 #### Show interstitial
 Only available after intersitital loaded successfully
  ```sh		
          IronSourceUtil.showInterstitials(placementId)
  ```
-#### Show interstitial with dialog
-If ready, showing interstitial with a fake loading dialog
- ```sh		
-         IronSourceUtil.showInterstitialsWithDialog(activity,placementId,dialogShowTime,interstitialCallback)
- ```
-#### Load and show interstitials
- ```sh
-         IronSourceUtil.showInterstitialAdsWithCallback(
-                this,
-                "ad-placement-id",
-                true,object : AdCallback {
-                    override fun onAdClosed() {
-                       // TODO
-                    }
-
-                    override fun onAdFail() {
-                        // TODO
-                    }
-                })
-        }
- ```
- #### Load a banner
+ #### Load a banner(place in onResume)
  
  ```sh
  IronSourceUtil.showBanner(activity,viewgroup,"ad-placement-id")
