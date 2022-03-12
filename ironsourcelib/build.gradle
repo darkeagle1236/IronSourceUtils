@@ -45,8 +45,8 @@ dependencies {
     implementation 'com.ironsource.adapters:facebookadapter:4.3.34'
     implementation 'com.facebook.android:audience-network-sdk:6.8.0'
     implementation 'com.unity3d.ads:unity-ads:3.7.5'
-    implementation 'com.google.android.gms:play-services-ads:20.4.0'
-    compileOnly files('libs/admobadapter-4.3.23.aar')
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
+    compileOnly files('libs/admobadapter-4.3.27.aar')
     compileOnly files('libs/unityadsadapter-4.3.14.aar')
 //    compileOnly files('libs/facebookadapter-4.3.34.aar')
     implementation 'com.pnikosis:materialish-progress:1.7'
