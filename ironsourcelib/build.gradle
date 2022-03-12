@@ -42,12 +42,13 @@ dependencies {
     implementation 'com.ironsource.sdk:mediationsdk:7.2.1'
     implementation 'com.unity3d.ads:unity-ads:3.7.5'
     implementation 'com.github.f0ris.sweetalert:library:1.5.1'
+    implementation 'com.ironsource.adapters:facebookadapter:4.3.34'
     implementation 'com.facebook.android:audience-network-sdk:6.8.0'
     implementation 'com.unity3d.ads:unity-ads:3.7.5'
     implementation 'com.google.android.gms:play-services-ads:20.4.0'
     compileOnly files('libs/admobadapter-4.3.23.aar')
     compileOnly files('libs/unityadsadapter-4.3.14.aar')
-    compileOnly files('libs/facebookadapter-4.3.32.aar')
+//    compileOnly files('libs/facebookadapter-4.3.34.aar')
     implementation 'com.pnikosis:materialish-progress:1.7'
     implementation 'com.github.dktlib:AdmobUtilsLibrary:5.0.9'
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'

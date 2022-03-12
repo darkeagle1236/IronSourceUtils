@@ -36,3 +36,8 @@
 #-keepclassmembers class * {
 #    @android.webkit.JavascriptInterface <methods>;
 #}
+-dontwarn com.facebook.ads.internal.**
+-keeppackagenames com.facebook.*
+-keep public class com.facebook.ads.** {*;}
+-keep public class com.facebook.ads.**
+{ public protected *; }

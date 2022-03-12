@@ -14,13 +14,13 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        IronSourceUtil.initIronSource(this, "85460dcd", false)
+        IronSourceUtil.initIronSource(this, "85460dcd", true)
         IronSourceUtil.validateIntegration(this)
         this.application.registerActivityLifecycleCallbacks(IronSourceLifeCycleHelper)
         binding.btnNext.setOnClickListener {
             IronSourceUtil.showInterstitials("splash")
         }
-        IronSourceUtil.loadInterstitials(this,7000,object : InterstititialCallback {
+        IronSourceUtil.loadInterstitials(this,10000,object : InterstititialCallback {
             override fun onInterstitialReady() {
                 binding.btnNext.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.INVISIBLE

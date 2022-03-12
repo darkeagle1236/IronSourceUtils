@@ -184,6 +184,9 @@ object IronSourceUtil : LifecycleObserver {
             }
 
             override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
+                var a = p0!!.errorMessage
+                var b = p0!!.errorCode
+                var c = 0
                 callback.onInterstitialLoadFail()
                 isLoadInterstitialFailed = true
                 isInterstitialAdShowing = false
