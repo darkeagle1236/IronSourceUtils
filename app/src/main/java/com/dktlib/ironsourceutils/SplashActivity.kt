@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
         binding.btnNext.setOnClickListener {
             IronSourceUtil.showInterstitials("splash")
         }
-        IronSourceUtil.loadInterstitials(this,10000,object : InterstititialCallback {
+        IronSourceUtil.loadInterstitials(this,7000,object : InterstititialCallback {
             override fun onInterstitialReady() {
                 binding.btnNext.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.INVISIBLE
