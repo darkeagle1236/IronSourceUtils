@@ -4,7 +4,10 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    configurations.all {
+        resolutionStrategy { force 'androidx.work:work-runtime:2.6.0' }
+    }
+    compileSdk 30
     dataBinding {
         enabled = true
     }
@@ -14,7 +17,7 @@ android {
         }
         applicationId "com.dktlib.ironsourceutils"
         minSdk 23
-        targetSdk 31
+        targetSdk 30
         versionCode 1
         versionName "1.0"
 
