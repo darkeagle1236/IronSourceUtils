@@ -39,6 +39,25 @@ Register lifecyclecallback to auto-reload after failed to load interstitial
  If you're going to use IronSource Mediation with other networks, you have to implement the corresponding network adapter
  Here's all network adapter you need:
  https://developers.is.com/ironsource-mobile/android/mediation-networks-android/#step-1
+ Example : you want to add Meta Audience Network, Admob and UnityAds : 
+ 
+ ```sh
+         	repositories {
+   			mavenCentral()
+   			maven {url 'https://android-sdk.is.com/'} 
+		}
+		dependencies {
+		// Add AdMob and Ad Manager Network
+		implementation 'com.google.android.gms:play-services-ads:20.6.0'
+		implementation 'com.ironsource.adapters:admobadapter:4.3.27'
+		// Add Facebook Network
+		implementation 'com.ironsource.adapters:facebookadapter:4.3.34'
+		implementation 'com.facebook.android:audience-network-sdk:6.8.0'
+		// Add UnityAds Network
+		implementation 'com.ironsource.adapters:unityadsadapter:4.3.20'
+		implementation 'com.unity3d.ads:unity-ads:4.0.1'
+		}
+ ```
 #### Load interstitial
  ```sh
          IronSourceUtil.loadInterstitials(object : InterstititialCallback {
