@@ -400,6 +400,7 @@ object IronSourceUtil : LifecycleObserver {
                 IronSource.setInterstitialListener(emptyListener)
                 callback.onInterstitialClosed()
                 isInterstitialAdShowing = false
+                isLoadInterstitialFailed = true
             }
         }
     }
@@ -492,6 +493,7 @@ object IronSourceUtil : LifecycleObserver {
                 IronSource.setInterstitialListener(emptyListener)
                 callback.onInterstitialClosed()
                 isInterstitialAdShowing = false
+                isLoadInterstitialFailed = true
             }
         }
     }
