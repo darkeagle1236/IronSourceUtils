@@ -3,11 +3,13 @@ package com.dktlib.ironsourceutils
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.dktlib.ironsourcelib.InterstititialCallback
 import com.dktlib.ironsourcelib.IronSourceLifeCycleHelper
 import com.dktlib.ironsourcelib.IronSourceUtil
 import com.dktlib.ironsourceutils.databinding.ActivitySplashBinding
+import java.util.jar.Manifest
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,13 +20,15 @@ class SplashActivity : AppCompatActivity() {
         IronSourceUtil.validateIntegration(this)
         this.application.registerActivityLifecycleCallbacks(IronSourceLifeCycleHelper)
         binding.btnNext.setOnClickListener {
-            IronSourceUtil.showInterstitials("splash")
+            requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
         }
-        IronSourceUtil.loadInterstitials(this,7000,object : InterstititialCallback {
+        IronSourceUtil.loadInterstitials(this,15000,object : InterstititialCallback {
             override fun onInterstitialReady() {
                 binding.btnNext.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.INVISIBLE
             }
+
+
 
             override fun onInterstitialClosed() {
                 val i = Intent(this@SplashActivity, MainActivity::class.java)
@@ -40,5 +44,36 @@ class SplashActivity : AppCompatActivity() {
 
             }
         })
+
     }
+    val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                IronSourceUtil.showInterstitialsWithDialogCheckTime(this,"aplssh",1500,0,object : InterstititialCallback {
+                    override fun onInterstitialReady() {
+
+                    }
+
+                    override fun onInterstitialClosed() {
+                        onInterstitialLoadFail()
+                    }
+
+                    override fun onInterstitialLoadFail() {
+                        startActivity(Intent(this@SplashActivity,MainActivity::class.java))
+                    }
+
+                    override fun onInterstitialShowSucceed() {
+
+                    }
+                })
+            } else {
+                // Explain to the user that the feature is unavailable because the
+                // features requires a permission that the user has denied. At the
+                // same time, respect the user's decision. Don't link to system
+                // settings in an effort to convince the user to change their
+                // decision.
+            }
+        }
 }

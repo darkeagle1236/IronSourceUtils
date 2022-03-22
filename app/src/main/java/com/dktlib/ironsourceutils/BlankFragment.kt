@@ -1,14 +1,18 @@
 package com.dktlib.ironsourceutils
 
+import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.dktlib.ironsourcelib.AdCallback
+import com.dktlib.ironsourcelib.InterstititialCallback
 import com.dktlib.ironsourcelib.IronSourceUtil
 import com.dktlib.ironsourceutils.databinding.FragmentBlankBinding
 
@@ -35,21 +39,21 @@ class BlankFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_blank,container,false)
         binding.loadAndShowInter.setOnClickListener{
 
-                IronSourceUtil.showInterstitialAdsWithCallback(
-                    requireActivity() as AppCompatActivity,
-                    "",
-                    true,object : AdCallback {
-                        override fun onAdClosed() {
-//                        val intent = Intent(this@MainActivity,MainActivity2::class.java)
-//                        startActivity(intent)
-                            Toast.makeText(requireActivity(),"YOOY",Toast.LENGTH_LONG).show()
-                        }
-
-                        override fun onAdFail() {
-                            onAdClosed()
-                        }
-                    })
-
+//                IronSourceUtil.showInterstitialAdsWithCallback(
+//                    requireActivity() as AppCompatActivity,
+//                    "",
+//                    true,object : AdCallback {
+//                        override fun onAdClosed() {
+////                        val intent = Intent(this@MainActivity,MainActivity2::class.java)
+////                        startActivity(intent)
+//                            Toast.makeText(requireActivity(),"YOOY",Toast.LENGTH_LONG).show()
+//                        }
+//
+//                        override fun onAdFail() {
+//                            onAdClosed()
+//                        }
+//                    })
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
         // Inflate the layout for this fragment
         return binding.root
@@ -69,4 +73,35 @@ class BlankFragment : Fragment() {
         fun newInstance() =
             BlankFragment()
     }
+    val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                IronSourceUtil.showInterstitialsWithDialogCheckTime(requireActivity() as AppCompatActivity,"aplssh",1500,0,object :
+                    InterstititialCallback {
+                    override fun onInterstitialReady() {
+
+                    }
+
+                    override fun onInterstitialClosed() {
+                        onInterstitialLoadFail()
+                    }
+
+                    override fun onInterstitialLoadFail() {
+                        startActivity(Intent(requireActivity(),SplashActivity::class.java))
+                    }
+
+                    override fun onInterstitialShowSucceed() {
+
+                    }
+                })
+            } else {
+                // Explain to the user that the feature is unavailable because the
+                // features requires a permission that the user has denied. At the
+                // same time, respect the user's decision. Don't link to system
+                // settings in an effort to convince the user to change their
+                // decision.
+            }
+        }
 }
